@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <Target>System.out</Target>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- File names don't need to have time stamp -->
+        <file>/usr/local/fp/log/emailservice.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Archived file names should have pattern. This rolls over to a new file collected in a monthly folder -->
+            <fileNamePattern>/usr/local/fp/log/%d{yyyy-MM,aux}/emailservice_%d.log</fileNamePattern>
+            <!-- Keep 30 days of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <!--<pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n</pattern>-->
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <logger name="com.fp" additivity="false" level="DEBUG">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+    <root level="DEBUG">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>
